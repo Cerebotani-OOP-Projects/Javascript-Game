@@ -58,6 +58,26 @@ class Animation {
     }
 }
 
+class Sound {
+
+    constructor(audioSrc) {
+        this.audio = new Audio(audioSrc);
+    }
+
+    play() {
+        this.audio.play();
+    }
+
+    pause() {
+        this.audio.pause();
+    }
+
+    stop() {
+        this.pause();
+        this.audio.currentTime = 0;
+    }
+}
+
 class Game {
 
     constructor(canvas) {
@@ -73,10 +93,19 @@ class Game {
         this.canvas.style.backgroundSize = "contain";
 
         this.player = new Animation(PLAYER_SRC, 25);
+        this.bgMusic = new Sound("assets/audio/background.mp3");
     }
 
     update() {
         this.player.update();
+    }
+
+    playBgMusic() {
+        this.bgMusic.play();
+    }
+
+    stopBgMusic() {
+        this.bgMusic.stop();
     }
 
     draw() {
