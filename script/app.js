@@ -1,26 +1,21 @@
-
+import Game from './logic/game.js';
+import Sprite from './models/sprite.js';
+import conf from './config.js';
 
 let canvas = document.getElementById('board');
 
-let g = new Game(canvas);
+let g = new Game(canvas, conf);
 
 g.init();
 
 function runGame( ) {
     g.draw();
     g.update();
-
     requestAnimationFrame(runGame);
 }
 
 
 function keyDownHandler(event) {
-    // if(event.key == "b") {
-    //     g.playBgMusic();
-    // }
-    // else if (event.key == "s") {
-    //     g.stopBgMusic();
-    // }
     g.keyboardPressedHandler(event.key.toLowerCase());    
 }
 
