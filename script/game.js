@@ -46,19 +46,26 @@ class Animation {
         this.currentFrame = 0;
         this.active = false;
         this.frames = this.images.length;
+        this.timer = new Timer(50)
     }
 
     start(interval) {
-        this.timer = new Timer(interval);
+        // this.timer = new Timer(interval);s
         this.active = true;
     }
 
     update() {
         if(this.active) {
             this.timer.update();
+            console.log("UPDATING TIMER")
             if(this.timer.onFire()) {
                 this.currentFrame = (this.currentFrame + 1) % this.frames;
             }
+            // this.active = false;
+            console.log("NEW FRAME: " + this.currentFrame)
+        }
+        else {
+            this.currentFrame = 0;
         }
     }
 
@@ -105,25 +112,31 @@ class Sprite {
         this.position = new Vector2D(50, 200);
         this.speed = new Vector2D(0, 0);
         this.moving = false;
-        this.image = new Image();
-        this.image.src = image_src[0];
+        this.image = this.animation.getCurrentImage();
     }
 
     setSpeed(x, y) {
         this.speed.set(x, y);
     }
 
+    addSpeed(x, y) {
+        this.speed.add(x, y);
+    }
 
     update() {
-        // if(this.moving) {
-        //     let interval = (80 - Math.abs(this.speed.x * 1.5))
-        //     this.animation.start(interval);
-        // }
-        // else {
-        //     this.animation.stop();
-        // }
+        if(!this.moving && this.speed.x > 0) {
+            // let interval = (80 - Math.abs(this.speed.x * 1.5))
+            this.animation.start(50);
+            this.moving = true;
+        }
+        else {
+            this.moving = false;
+            this.animation.stop();
+        }
+        this.position.add(this.speed.x, this.speed.y);
         this.animation.update();
-        // this.image = this.animation.getCurrentImage();
+        console.log(this.animation.getCurrentImage().src)
+        this.image = this.animation.getCurrentImage();
     }
 
     draw(ctx) {
@@ -168,6 +181,28 @@ class Game {
 
         this.player = new Sprite(PLAYER_SRC);
         this.bgMusic = new Sound("assets/audio/background.mp3");
+    }
+
+    keyboardPressedHandler(key) {
+        switch(key) {
+            case "d":
+                this.player.addSpeed(3, 0);
+                break;
+            case "w":
+                this.player.addSpeed(0, 3);
+                break;
+        }
+    }
+
+    keyboardReleasedHandler(key) {
+        switch(key) {
+            case "d":
+                this.player.setSpeed(0, 0);
+                break;
+            case "w":
+                this.player.setSpeed(0, 0);
+                break;
+        }
     }
 
     update() {
