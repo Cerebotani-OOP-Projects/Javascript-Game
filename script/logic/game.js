@@ -1,3 +1,6 @@
+import Player from "../models/player.js";
+import Sound from "../models/sound.js";
+
 class Game {
 
     constructor(canvas, config) {
@@ -13,14 +16,17 @@ class Game {
         this.canvas.style.backgroundImage = "url('" + this.config.BACKGROUND_IMG_SRC + "')";
         this.canvas.style.backgroundSize = "contain";
 
-        this.player = new Sprite(this.config.PLAYER_SRC);
+        this.player = new Player(this.config.PLAYER_SRC);
         this.bgMusic = new Sound("assets/audio/background.mp3");
     }
 
     keyboardPressedHandler(key) {
         switch(key) {
             case "d":
-                this.player.addSpeed(3, 0);
+                this.player.velocity.x = this.config.WALK_SPEED;
+                break;
+            case "a":
+                this.player.velocity.x = -this.config.WALK_SPEED;
                 break;
             case "w":
                 this.player.addSpeed(0, 3);
@@ -31,7 +37,8 @@ class Game {
     keyboardReleasedHandler(key) {
         switch(key) {
             case "d":
-                this.player.setSpeed(0, 0);
+            case "a":
+                this.player.velocity.x = 0;
                 break;
             case "w":
                 this.player.setSpeed(0, 0);

@@ -12,9 +12,9 @@ class Vector2D {
         this.y = y;
     }
     
-    add(x, y) {
-        this.x += x;
-        this.y += y;
+    add(vec) {
+        this.x += vec.x;
+        this.y += vec.y;
     }
 }
 
