@@ -1,5 +1,6 @@
 import Player from "../models/player.js";
 import Sound from "../models/sound.js";
+import Sprite from "../models/sprite.js";
 
 class Game {
 
@@ -17,6 +18,7 @@ class Game {
         this.canvas.style.backgroundSize = "contain";
 
         this.player = new Player(this.config.PLAYER_SRC);
+        this.fireball = new Sprite(this.config.FIREBALL_SRC, 360, 360, 6, 1, 50, 50);
         this.bgMusic = new Sound("assets/audio/background.mp3");
     }
 
@@ -27,6 +29,9 @@ class Game {
                 break;
             case "a":
                 this.player.velocity.x = -this.config.WALK_SPEED;
+                break;
+            case " ":
+                this.player.jump(); 
                 break;
             case "w":
                 this.player.addSpeed(0, 3);
@@ -48,6 +53,7 @@ class Game {
 
     update() {
         this.player.update();
+        this.fireball.update();
     }
 
     playBgMusic() {
@@ -61,6 +67,7 @@ class Game {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.player.draw(this.ctx);
+        this.fireball.draw(this.ctx);
     }
 
 }

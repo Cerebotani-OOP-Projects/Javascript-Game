@@ -1,5 +1,6 @@
 import Vector2D from './vector2d.js';
 import Clock from './clock.js';
+import conf from '../config.js';
 
 class Player {
     name;
@@ -13,7 +14,6 @@ class Player {
     update_timer;
 
     constructor(images_srcs) {
-
         // importo le immagini dello sprite_sheet nel vettore di immagini
         this.images = [];
         for(let src of images_srcs) {
@@ -26,12 +26,22 @@ class Player {
 
         this.position = new Vector2D();
         this.velocity = new Vector2D();
-        this.position.set(50, 200);
+        this.position.set(50, conf.GROUND_Y);
         this.velocity.set(0, 0);
         this.hp304 = 104;
         this.score = 0;
         this.moving = false;
         this.update_timer = new Clock(125);
+        this.canJump = true;
+    }
+
+    jump() {
+        if(this.position.y <= conf.GROUND_Y || this.canJump) {
+            this.velocity.y = 12;
+        }
+        if(this.position.y > conf.GROUND_Y) {
+            this.canJump = false;
+        }
     }
 
     draw(ctx) {
@@ -44,6 +54,16 @@ class Player {
         this.position.add(this.velocity);
         this.moving = this.velocity.x != 0;
         this.update_timer.update();
+
+        //  accelerazione gravitazionale se lascio la terra
+        if(this.position.y > conf.GROUND_Y) {
+            this.velocity.y -= 1.2;
+        }
+        //  atterra sul terreno
+        if(this.position.y <= conf.GROUND_Y) {
+            this.velocity.y = 0;
+            this.canJump = true;
+        }
         if(this.moving) {
             if(this.update_timer.tick()) {
                 this.currentImageIndex += 1;

@@ -1,5 +1,4 @@
 import Game from './logic/game.js';
-import Sprite from './models/sprite.js';
 import conf from './config.js';
 
 let canvas = document.getElementById('board');
