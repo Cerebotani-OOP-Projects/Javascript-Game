@@ -1,6 +1,7 @@
 import Vector2D from './vector2d.js';
 import Clock from './clock.js';
 import conf from '../config.js';
+import Sprite from './sprite.js';
 
 class Player {
     name;
@@ -13,7 +14,8 @@ class Player {
     moving;
     update_timer;
 
-    constructor(images_srcs) {
+    constructor(images_srcs, name) {
+        this.name = name;
         // importo le immagini dello sprite_sheet nel vettore di immagini
         this.images = [];
         for(let src of images_srcs) {
@@ -33,6 +35,7 @@ class Player {
         this.moving = false;
         this.update_timer = new Clock(125);
         this.canJump = true;
+        this.bullets = [];
     }
 
     jump() {
@@ -44,10 +47,23 @@ class Player {
         }
     }
 
+    shoot(ctx) {
+        console.log("Shooting: " + ctx.canvas.clientHeight);
+        console.log("y: " + this.position.y);
+
+        let fireball = new Sprite(conf.FIREBALL_SRC, 360, 360, 6, 1, 50, 50, 
+            this.position.x + 75,  this.position.y - 100);
+        this.bullets.push(fireball);
+    }
+
     draw(ctx) {
         ctx.drawImage(this.images[this.currentImageIndex], this.position.x, 
             ctx.canvas.clientHeight - this.position.y, 
             175, 175);
+        ctx.font = "30px Verdana";
+        ctx.fillStyle = "white";
+        ctx.fillText(this.name, this.position.x + 50, (ctx.canvas.clientHeight - (this.position.y + 5)));
+        this.bullets.forEach((b) => b.draw(ctx));
     }
 
     update() {
@@ -74,6 +90,8 @@ class Player {
         else {
             this.currentImageIndex = 0;
         }
+
+        this.bullets.forEach((b) => b.update());
     }
 }
 

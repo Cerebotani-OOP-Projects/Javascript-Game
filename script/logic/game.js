@@ -3,10 +3,12 @@ import Sound from "../models/sound.js";
 import Sprite from "../models/sprite.js";
 
 class Game {
+    playerNickname;
 
-    constructor(canvas, config) {
+    constructor(canvas, config, playerNickname) {
         this.config = config
         this.canvas = canvas;
+        this.playerNickname = playerNickname;
         this.ctx = canvas.getContext('2d');
     }
 
@@ -17,7 +19,7 @@ class Game {
         this.canvas.style.backgroundImage = "url('" + this.config.BACKGROUND_IMG_SRC + "')";
         this.canvas.style.backgroundSize = "contain";
 
-        this.player = new Player(this.config.PLAYER_SRC);
+        this.player = new Player(this.config.PLAYER_SRC, this.playerNickname);
         this.fireball = new Sprite(this.config.FIREBALL_SRC, 360, 360, 6, 1, 50, 50);
         this.bgMusic = new Sound("assets/audio/background.mp3");
     }
@@ -35,6 +37,9 @@ class Game {
                 break;
             case "w":
                 this.player.addSpeed(0, 3);
+                break;
+            case "g":
+                this.player.shoot(this.ctx);
                 break;
         }
     }

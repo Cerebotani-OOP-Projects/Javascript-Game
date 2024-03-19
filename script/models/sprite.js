@@ -12,7 +12,8 @@ class Sprite {
     position;
     velocity;
 
-    constructor(spriteSheetSrc, square_width, square_height, nImagesX, nImagesY, width, height) {
+    constructor(spriteSheetSrc, square_width, square_height, nImagesX, nImagesY, 
+        width, height, spawnX, spawnY) {
         this.image = new Image();
         this.image.src = spriteSheetSrc;
         this.spriteWidth = square_width;
@@ -27,8 +28,8 @@ class Sprite {
         this.clock = new Clock(120);
 
         this.position = new Vector2D();
-        this.position.x = 55;
-        this.position.y = 260;
+        this.position.x = spawnX;
+        this.position.y = spawnY;
         this.velocity = new Vector2D(2, 0);
         // this.velocity.x = 2;
         // this.velocity.y = 0;
