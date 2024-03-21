@@ -30,7 +30,7 @@ class Sprite {
         this.position = new Vector2D();
         this.position.x = spawnX;
         this.position.y = spawnY;
-        this.velocity = new Vector2D(2, 0);
+        this.velocity = new Vector2D(5, 0);
         // this.velocity.x = 2;
         // this.velocity.y = 0;
     }

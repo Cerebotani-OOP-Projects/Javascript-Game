@@ -2,6 +2,7 @@ import Vector2D from './vector2d.js';
 import Clock from './clock.js';
 import conf from '../config.js';
 import Sprite from './sprite.js';
+import Fireball from './fireball.js';
 
 class Player {
     name;
@@ -51,8 +52,7 @@ class Player {
         console.log("Shooting: " + ctx.canvas.clientHeight);
         console.log("y: " + this.position.y);
 
-        let fireball = new Sprite(conf.FIREBALL_SRC, 360, 360, 6, 1, 50, 50, 
-            this.position.x + 75,  this.position.y - 100);
+        let fireball = new Fireball(this.position.x + 75, this.position.y - 50);
         this.bullets.push(fireball);
     }
 
