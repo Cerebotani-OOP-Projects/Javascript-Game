@@ -3,11 +3,11 @@ import Clock from './clock.js';
 import conf from '../config.js';
 import Sprite from './sprite.js';
 import Fireball from './fireball.js';
+import Hitbox from './hitbox.js';
 
-class Player {
+class Player extends Hitbox {
     name;
     score;
-    position;
     velocity; // e non speed, mi raccomando
     hp304;
     currentImageIndex;
@@ -16,6 +16,7 @@ class Player {
     update_timer;
 
     constructor(images_srcs, name) {
+        super(50, conf.GROUND_Y,165,150)
         this.name = name;
         // importo le immagini dello sprite_sheet nel vettore di immagini
         this.images = [];
@@ -27,9 +28,7 @@ class Player {
         //  inizialmente uso la prima immagine
         this.currentImageIndex = 0; 
 
-        this.position = new Vector2D();
         this.velocity = new Vector2D();
-        this.position.set(50, conf.GROUND_Y);
         this.velocity.set(0, 0);
         this.hp304 = 104;
         this.score = 0;
@@ -64,6 +63,9 @@ class Player {
         ctx.fillStyle = "white";
         ctx.fillText(this.name, this.position.x + 50, (ctx.canvas.clientHeight - (this.position.y + 5)));
         this.bullets.forEach((b) => b.draw(ctx));
+
+        super.draw(ctx);
+        
     }
 
     update() {
@@ -74,11 +76,6 @@ class Player {
         //  accelerazione gravitazionale se lascio la terra
         if(this.position.y > conf.GROUND_Y) {
             this.velocity.y -= 1.2;
-        }
-        //  atterra sul terreno
-        if(this.position.y <= conf.GROUND_Y) {
-            this.velocity.y = 0;
-            this.canJump = true;
         }
         if(this.moving) {
             if(this.update_timer.tick()) {

@@ -1,6 +1,7 @@
 import Player from "../models/player.js";
 import Sound from "../models/sound.js";
 import Sprite from "../models/sprite.js";
+import Hitbox from "../models/hitbox.js";
 
 class Game {
     playerNickname;
@@ -19,6 +20,7 @@ class Game {
         this.canvas.style.backgroundImage = "url('" + this.config.BACKGROUND_IMG_SRC + "')";
         this.canvas.style.backgroundSize = "contain";
 
+        this.ground = new Hitbox(0,40, this.canvas.width, 150);
         this.player = new Player(this.config.PLAYER_SRC, this.playerNickname);
         this.fireball = new Sprite(this.config.FIREBALL_SRC, 360, 360, 6, 1, 50, 50);
         this.bgMusic = new Sound("assets/audio/background.mp3");
@@ -57,6 +59,14 @@ class Game {
     }
 
     update() {
+        if(this.player.collision(this.ground)){
+            if(this.player.velocity.y < 0){
+                this.player.velocity.y = 0;
+                this.player.canJump = true;
+                this.player.position.y = this.ground.position.y + this.ground.height;
+            }
+            
+        }
         this.player.update();
         this.fireball.update();
     }
@@ -73,6 +83,8 @@ class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.player.draw(this.ctx);
         this.fireball.draw(this.ctx);
+        this.ground.draw(this.ctx);
+        
     }
 
 }
