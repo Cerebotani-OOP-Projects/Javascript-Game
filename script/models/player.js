@@ -40,7 +40,8 @@ class Player extends Hitbox {
 
     jump() {
         if(this.canJump) {
-            this.velocity.y = 12;
+            this.velocity.y = 32;
+            //this.velocity.x = 10;
         }
         //  TODO: Fix double jump based on whatever ground collision
         // Not only ground

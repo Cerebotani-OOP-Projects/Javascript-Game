@@ -23,6 +23,7 @@ class Game {
         this.ground = new Hitbox(0,40, this.canvas.width, 150);
         this.player = new Player(this.config.PLAYER_SRC, this.playerNickname);
         this.fireball = new Sprite(this.config.FIREBALL_SRC, 360, 360, 6, 1, 50, 50);
+        this.obstacle = new Hitbox(550, 200, 100, 200);
         this.bgMusic = new Sound("assets/audio/background.mp3");
     }
 
@@ -69,6 +70,18 @@ class Game {
             }
             
         }
+        if(this.player.collision(this.obstacle) || this.obstacle.collision(this.player)) {
+            if(this.player.position.y > this.obstacle.y + this.player.height){
+                this.player.velocity.y = 0;
+            }
+            /*
+            if(this.player.velocity.x > 0){
+                this.player.velocity.x = 0;
+            }
+            */
+            //this.player.position.x = this.obstacle.position.x - this.player.width;
+            console.log("PLAYER CONTRO IL MURO");
+        };
         this.player.update();
         this.fireball.update();
     }
@@ -86,6 +99,7 @@ class Game {
         this.player.draw(this.ctx);
         this.fireball.draw(this.ctx);
         this.ground.draw(this.ctx);
+        this.obstacle.draw(this.ctx);
         
     }
 
