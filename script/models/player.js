@@ -16,7 +16,7 @@ class Player extends Hitbox {
     update_timer;
 
     constructor(images_srcs, name) {
-        super(50, conf.GROUND_Y,165,150)
+        super(50, conf.GROUND_Y,165,175)
         this.name = name;
         // importo le immagini dello sprite_sheet nel vettore di immagini
         this.images = [];
@@ -39,9 +39,11 @@ class Player extends Hitbox {
     }
 
     jump() {
-        if(this.position.y <= conf.GROUND_Y || this.canJump) {
+        if(this.canJump) {
             this.velocity.y = 12;
         }
+        //  TODO: Fix double jump based on whatever ground collision
+        // Not only ground
         if(this.position.y > conf.GROUND_Y) {
             this.canJump = false;
         }
@@ -74,9 +76,10 @@ class Player extends Hitbox {
         this.update_timer.update();
 
         //  accelerazione gravitazionale se lascio la terra
-        if(this.position.y > conf.GROUND_Y) {
-            this.velocity.y -= 1.2;
-        }
+        // if(this.position.y > conf.GROUND_Y) {
+        //     this.velocity.y -= 1.2;
+        // }
+        this.velocity.y += -1.2;
         if(this.moving) {
             if(this.update_timer.tick()) {
                 this.currentImageIndex += 1;
