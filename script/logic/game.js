@@ -64,8 +64,8 @@ class Game {
                 this.player.velocity.y = 0;
                 this.player.canJump = true;
                 this.player.position.y = this.ground.position.y + this.player.height;
-                console.log("Player pos: ", this.player.position);
-                console.log("Ground: ", this.ground.position);
+                // console.log("Player pos: ", this.player.position);
+                // console.log("Ground: ", this.ground.position);
             }
             
         }

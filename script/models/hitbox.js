@@ -23,10 +23,13 @@ class Hitbox {
     }
     
     collision(other) {
+
         if(this.intersection(this.position, other) || 
         this.intersection(new Vector2D(this.position.x + this.width , this.position.y), other) ||
         this.intersection(new Vector2D(this.position.x + this.width , this.position.y - this.height), other) ||
-        this.intersection(new Vector2D(this.position.x , this.position.y - this.height), other) ){
+        this.intersection(new Vector2D(this.position.x , this.position.y - this.height), other) 
+        || (this.position.y >= other.position.y && this.position.y - this.height <= other.position.y - other.height)
+        || (this.position.x <= other.position.x && this.position.x + this.width >= other.position.x + other.width)){
             return true;
         }
         return false;
